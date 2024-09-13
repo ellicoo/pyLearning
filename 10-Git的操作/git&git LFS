@@ -134,3 +134,29 @@ Rebase and merge：
     这会将整个feature分支移动到master分支的顶端，从而有效地整合了所有master的新提交。
     但是，rebase不是使用merge commit，而是通过为原始分支中的每个提交创建全新的提交来重写项目历史记录。
     git rebase的黄金法则是永远不要在公共分支使用它。
+
+
+常用场景：
+当前分支进行了修改，还没有提交，现在远程分支有更新，我需要基于远程分支最新的状态进行开发，同时又不丢失我当前的修改
+1，git fetch origin的某个远程分支 （但不会直接与本地当前分支进行合并）：git fetch origin feature-agent-v2
+2，git stash -m "dening_fix"   (将我更新的代码进行暂存到暂存区)
+
+具体：
+# 暂存本地修改
+git stash -m "before fetching new code"
+
+# 获取远程最新代码并切换分支
+git fetch origin feature-agent-v2
+git checkout feature-agent-v2
+
+# 合并远程分支到当前分支
+git merge origin/feature-agent-v2
+
+# 恢复暂存的修改
+git stash pop
+
+# 解决冲突（如果有）
+# ...
+
+# 继续开发
+# ...
